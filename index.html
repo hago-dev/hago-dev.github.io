@@ -297,6 +297,8 @@ body { margin: 0; background: #f2f2f2; }
     var form = document.getElementById('lnlForm');
     if (!form) return;
 
+    var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbysvDoqiHK2mnxWIozLsbV6ph55PqG9IegA2iPnLpDSo2FUE7YesY_mnyJvkX2eihqXtg/exec';
+
     var nameInput = document.getElementById('lnlName');
     var emailId = document.getElementById('lnlEmailId');
     var emailDomain = document.getElementById('lnlEmailDomain');
@@ -349,6 +351,15 @@ body { margin: 0; background: #f2f2f2; }
 
       submitBtn.disabled = true;
       submitBtn.textContent = '전송 중...';
+
+      try {
+        fetch(SHEET_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
+        });
+      } catch (err) {}
 
       if (typeof emailjs === 'undefined') {
         alert('이메일 서비스를 로드할 수 없습니다. 잠시 후 다시 시도해 주세요.');
